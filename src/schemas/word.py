@@ -8,3 +8,4 @@ class WordCreateSchema(BaseModel):
 class WordReadSchema(BaseModel):
 
     id: int
+    text: str

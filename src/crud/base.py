@@ -1,6 +1,7 @@
 from typing import Generic, TypeVar, Type
 
 from fastapi import HTTPException, status
+from pydantic import BaseModel
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -70,3 +71,18 @@ class BaseMutableCRUD(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
                 detail=f'{self.model.__name__} already exists'
             )
         return None
+
+    async def get_multi(
+        self,
+        session: AsyncSession,
+        filter_schema: BaseModel = None,
+        **filters
+    ):
+        stmt = select(self.model)
+        if filter_schema:
+            stmt = stmt.filter_by(**filter_schema.model_dump(exclude_unset=True))
+        elif filters:
+            stmt = stmt.filter_by(**filters)
+
+        result = await session.execute(stmt)
+        return result.scalars().all()

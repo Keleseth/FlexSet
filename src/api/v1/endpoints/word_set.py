@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.services.word_set import validate_and_create
+from src.services.word_set import handle_add_word_to_set
 from src.database.db_dependencies import get_async_session
 from src.schemas.word_set import WordSetCreateSchema, WordSetBaseSchema
 
@@ -18,7 +18,7 @@ async def add_word_to_set(
     session: AsyncSession = Depends(get_async_session)
 )-> None:
     # TODO добавить валидацию в crud функцию. Существование связи и тд.
-    await validate_and_create(
+    await handle_add_word_to_set(
         obj_in=obj_in,
         session=session,
     )

@@ -6,7 +6,7 @@ from src.crud.word_set import word_set_crud
 from src.schemas.word_set import WordSetCreateSchema
 
 
-async def validate_and_create(
+async def handle_add_word_to_set(
     session: AsyncSession,
     obj_in: WordSetCreateSchema,
 ):
