@@ -1,0 +1,1 @@
+DEFAULT_AUTO_COMMIT: bool = True
